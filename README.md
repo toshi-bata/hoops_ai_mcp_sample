@@ -31,15 +31,6 @@ Only three feature groups are implemented:
 | CAD viewer | `POST /CAD/viewer` | `open_cad_viewer` |
 | MFR inference | `POST /MFR/inference` | `run_mfr_inference` |
 
-### Out of scope
-
-The following features are intentionally excluded from this sample:
-
-- Similarity search (FAISS index)
-- Shape Space Map
-- Part Classification
-- B-Rep attribute and adjacency graph analysis
-
 ---
 
 ## Prerequisites
