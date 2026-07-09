@@ -64,8 +64,7 @@ cp .env.example .env
 # HOOPS_AI_MFR_FLOW_NAME=<flow name>
 
 # Copy the HOOPS Web Viewer JS asset (from the HOOPS AI distribution)
-mkdir -p static
-cp /path/to/hoops-web-viewer-monolith.mjs static/
+copy "<HOOPS_AI_INSTALL_DIR>\.venv\Lib\site-packages\hoops_viewer\static\javascript\communicator\web-viewer-monolith\hoops-web-viewer-monolith.mjs" "static\"
 
 # Start the server
 uvicorn main:app --host 127.0.0.1 --port 8000

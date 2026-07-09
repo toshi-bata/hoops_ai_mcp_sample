@@ -10,6 +10,9 @@ venv/
 webapi/uploads/
 webapi/out/
 
+# HOOPS Web Viewer JS asset (copy manually from HOOPS AI distribution)
+webapi/static/*.mjs
+
 # uv
 .python-version
 uv.lock
