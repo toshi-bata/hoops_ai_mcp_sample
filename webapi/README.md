@@ -12,7 +12,7 @@ FastAPI application that exposes three endpoints:
 
 ## Prerequisites
 
-- Python 3.12+
+- Python 3.12
 - HOOPS AI SDK installed in the same Python environment
   (obtain from your Tech Soft 3D distribution; not available on PyPI)
 - A valid HOOPS AI license key

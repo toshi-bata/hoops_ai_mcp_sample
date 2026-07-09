@@ -10,7 +10,7 @@ FastMCP server that lets Claude Desktop call HOOPS AI through three tools:
 
 ## Prerequisites
 
-- Python 3.12+
+- Python 3.12
 - [uv](https://docs.astral.sh/uv/) (recommended) or pip
 - The WebAPI server running at `http://127.0.0.1:8000`
   (see `../webapi/README.md`)
