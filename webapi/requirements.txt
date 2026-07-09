@@ -2,5 +2,5 @@ fastapi>=0.111.0
 uvicorn[standard]>=0.29.0
 python-multipart>=0.0.9
 numpy>=1.24.0
-# HOOPS AI SDK is installed separately — it is not available on PyPI.
+# HOOPS AI SDK is installed separately - it is not available on PyPI.
 # Install it from your HOOPS AI distribution package before starting the server.
