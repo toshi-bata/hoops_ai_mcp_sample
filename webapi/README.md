@@ -26,11 +26,12 @@ pip install -r requirements.txt
 # 2. Create .env (copy from example and fill in your values)
 cp .env.example .env
 # Edit .env — set HOOPS_AI_LICENSE, HOOPS_AI_NOTEBOOK_DIR, HOOPS_AI_MFR_MODEL_NAME, etc.
+```
 
-# 3. Copy HOOPS Web Viewer JS asset into static/
-#    (hoops-web-viewer-monolith.mjs — part of the HOOPS AI distribution)
-mkdir -p static
-cp /path/to/hoops-web-viewer-monolith.mjs static/
+3\. Copy the HOOPS Web Viewer JS asset into `static/`:
+
+```cmd
+copy "<HOOPS_AI_INSTALL_DIR>\.venv\Lib\site-packages\hoops_viewer\static\javascript\communicator\web-viewer-monolith\hoops-web-viewer-monolith.mjs" "static\"
 ```
 
 ## Start the server
@@ -53,5 +54,5 @@ Interactive API docs are available at <http://127.0.0.1:8000/docs>.
 ## Notes
 
 - The `uploads/` and `out/` directories are created automatically on first run.
-- Place `hoops-web-viewer-monolith.mjs` in `static/` for the web viewer to work.
+- `static/*.mjs` is excluded from version control — copy it manually (see Setup above).
 - This is a **minimal sample** — it is not production-ready.
