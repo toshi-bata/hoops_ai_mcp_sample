@@ -36,8 +36,8 @@ copy "<HOOPS_AI_INSTALL_DIR>\.venv\Lib\site-packages\hoops_viewer\static\javascr
 
 ## Start the server
 
-```bash
-uvicorn main:app --host 127.0.0.1 --port 8000
+```cmd
+<HOOPS_AI_INSTALL_DIR>\.venv\Scripts\python.exe main.py --host 0.0.0.0 --port 8000
 ```
 
 Interactive API docs are available at <http://127.0.0.1:8000/docs>.
