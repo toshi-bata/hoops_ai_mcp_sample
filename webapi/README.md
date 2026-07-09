@@ -20,6 +20,8 @@ FastAPI application that exposes three endpoints:
 ## Setup
 
 ```bash
+cd webapi
+
 # 1. Install dependencies
 pip install -r requirements.txt
 
@@ -36,7 +38,10 @@ copy "<HOOPS_AI_INSTALL_DIR>\.venv\Lib\site-packages\hoops_viewer\static\javascr
 
 ## Start the server
 
-```cmd
+```bash
+# If you are not already in the webapi directory:
+cd webapi
+
 <HOOPS_AI_INSTALL_DIR>\.venv\Scripts\python.exe main.py --host 0.0.0.0 --port 8000
 ```
 
