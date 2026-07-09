@@ -31,7 +31,7 @@ Only three feature groups are implemented:
 | CAD viewer | `POST /CAD/viewer` | `open_cad_viewer` |
 | MFR inference | `POST /MFR/inference` | `run_mfr_inference` |
 
-> No sample CAD files are included. Try it with your own STEP or IGES files.
+> No sample CAD files are included. Try it with your own 3D CAD files.
 
 ---
 
