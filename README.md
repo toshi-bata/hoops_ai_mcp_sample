@@ -35,10 +35,10 @@ Only three feature groups are implemented:
 
 ## Prerequisites
 
-- **Python 3.12+**
-- **HOOPS AI SDK** installed in the same Python environment
-  (obtain from your Tech Soft 3D distribution — it is not available on PyPI)
-- **A valid HOOPS AI license key**
+- **Python 3.12**
+- **HOOPS AI SDK V1.1** installed in the same Python environment
+  (obtain from your Tech Soft 3D distribution)
+- **A valid HOOPS AI and Visualize Web license key**
 - [uv](https://docs.astral.sh/uv/) (recommended) or pip
 - **Claude Desktop** (required for MCP usage)
 
