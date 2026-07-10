@@ -1,3 +1,10 @@
+# Windows: switch to SelectorEventLoop before any imports to avoid a spurious
+# KeyboardInterrupt caused by Proactor IPC pipes during pydantic schema generation.
+import sys
+if sys.platform == "win32":
+    import asyncio
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 from contextlib import asynccontextmanager
 import pathlib
 
@@ -10,13 +17,10 @@ from routers import brep, cad, files, mfr
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Prepare directories
     core.CAD_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
     core.CAD_VIEWER_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    # Initialize HOOPS AI license exactly once
     core.init_hoops_license()
     yield
-    # Cleanup on shutdown
     core.CAD_viewers.clear()
     core.CAD_face_colors.clear()
 
@@ -52,5 +56,20 @@ app.mount("/static", StaticFiles(directory=str(_static_dir)), name="static")
 
 
 if __name__ == "__main__":
+    import argparse
     import uvicorn
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=False)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--port", type=int, default=8000)
+    args = parser.parse_args()
+
+    # Pre-warm pydantic schema generation before uvicorn's event loop starts.
+    # On first run (no .pyc cache), slow compilation inside uvicorn's signal
+    # handling window triggers a spurious KeyboardInterrupt on Windows.
+    try:
+        app.openapi()
+    except Exception:
+        pass
+
+    uvicorn.run(app, host=args.host, port=args.port, reload=False)
