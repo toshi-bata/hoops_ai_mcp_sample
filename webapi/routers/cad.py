@@ -84,7 +84,7 @@ def viewer_page(scs: str = Query(..., description="SCS filename in the out/ dire
     html, body {{ margin: 0; padding: 0; overflow: hidden; }}
     #viewer {{ position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; }}
     #legend {{
-      position: fixed; top: 12px; right: 12px; z-index: 10;
+      position: fixed; top: 12px; left: 12px; z-index: 10;
       background: rgba(20,20,30,0.82); color: #f0f0f0;
       border-radius: 8px; padding: 10px 14px;
       font-family: sans-serif; font-size: 13px;
