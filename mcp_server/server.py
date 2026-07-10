@@ -183,3 +183,7 @@ def run_mfr_inference(cad_file_path: str = "", file_id: str = "") -> dict:
         timeout=300,
     )
     return response.json()
+
+
+if __name__ == "__main__":
+    mcp.run()
