@@ -1,12 +1,13 @@
 # mcp_server — HOOPS AI MCP Server (minimal sample)
 
-FastMCP server that lets Claude Desktop call HOOPS AI through three tools:
+FastMCP server that lets Claude Desktop call HOOPS AI through four tools:
 
 | Tool | Description |
 |------|-------------|
 | `upload_cad_model` | Upload a local CAD file; returns `file_id` |
 | `open_cad_viewer` | Open the HOOPS Web Viewer for a CAD file |
 | `run_mfr_inference` | Run Manufacturing Feature Recognition |
+| `get_brep_attributes` | Extract per-face and per-edge B-rep attributes |
 
 ## Prerequisites
 

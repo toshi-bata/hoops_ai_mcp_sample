@@ -185,5 +185,35 @@ def run_mfr_inference(cad_file_path: str = "", file_id: str = "") -> dict:
     return response.json()
 
 
+@mcp.tool()
+def get_brep_attributes(cad_file_path: str = "", file_id: str = "") -> dict:
+    """Extract per-face and per-edge B-rep attributes from a CAD file.
+
+    Retrieves geometric attributes for every face (type, area, centroid, loop
+    count) and every edge (type, length, dihedral angle, convexity) in the
+    B-rep model.
+
+    Provide either:
+    - cad_file_path: local path to a CAD file (uploaded automatically)
+    - file_id: ID from a previous upload_cad_model call (avoids re-upload)
+
+    Args:
+        cad_file_path: Local path to a CAD file (optional if file_id given).
+        file_id: file_id from upload_cad_model (optional if path given).
+
+    Returns raw per-face and per-edge attribute data. Present it however best
+    fits the user's request — as a table, a chart, a filtered/sorted list, or a
+    summary — the response format is not fixed.
+    """
+    fid = _resolve_file_id(cad_file_path, file_id)
+    response = _api_post(
+        f"{API_BASE}/BRep/attributes",
+        params={"file_id": fid},
+        headers=_SESSION_HEADERS,
+        timeout=120,
+    )
+    return response.json()
+
+
 if __name__ == "__main__":
     mcp.run()

@@ -345,6 +345,50 @@ def run_MFR_inference(
     }
 
 
+# ---------------------------------------------------------------------------
+# BRep Attributes
+# ---------------------------------------------------------------------------
+
+def get_brep_attributes(cad_file_path: pathlib.Path) -> dict[str, Any]:
+    """Extract per-face and per-edge attributes from the B-rep model of a CAD file.
+
+    Loads the CAD file, adapts the B-rep, and encodes face and edge attributes
+    using BrepEncoder.  Returns a JSON-safe dict with ``faces`` and ``edges``
+    sub-dicts.  This is a pure read-only operation — it does not touch any
+    viewer or session state.
+    """
+    from hoops_ai.cadaccess import HOOPSLoader, HOOPSTools
+    from hoops_ai.cadencoder import BrepEncoder
+
+    cad_loader = HOOPSLoader()
+    cad_model = cad_loader.create_from_file(str(cad_file_path))
+
+    hoops_tools = HOOPSTools()
+    hoops_tools.adapt_brep(cad_model)
+
+    brep_encoder = BrepEncoder(cad_model.get_brep())
+
+    [face_types, face_areas, face_centroids, face_loops], face_types_descr = brep_encoder.push_face_attributes()
+    [edge_types, edge_lengths, edge_dihedrals, edge_convexities], edge_types_descr = brep_encoder.push_edge_attributes()
+
+    return {
+        "faces": {
+            "types": json_safe(face_types),
+            "areas": json_safe(face_areas),
+            "centroids": json_safe(face_centroids),
+            "loops": json_safe(face_loops),
+            "types_description": json_safe(face_types_descr),
+        },
+        "edges": {
+            "types": json_safe(edge_types),
+            "lengths": json_safe(edge_lengths),
+            "dihedrals": json_safe(edge_dihedrals),
+            "convexities": json_safe(edge_convexities),
+            "types_description": json_safe(edge_types_descr),
+        },
+    }
+
+
 def _get_mfr_labels_description() -> dict:
     """Load MFR label descriptions bundled with the server."""
     labels_path = pathlib.Path(__file__).parent / "data" / "mfr_labels_description.json"

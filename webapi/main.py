@@ -5,7 +5,7 @@ import core
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-from routers import cad, files, mfr
+from routers import brep, cad, files, mfr
 
 
 @asynccontextmanager
@@ -39,6 +39,7 @@ async def runtime_error_handler(request: Request, exc: RuntimeError):
 app.include_router(files.router)
 app.include_router(cad.router)
 app.include_router(mfr.router)
+app.include_router(brep.router)
 
 # Serve generated SCS / PNG files for the web viewer
 core.CAD_VIEWER_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
