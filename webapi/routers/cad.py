@@ -88,10 +88,11 @@ def viewer_page(scs: str = Query(..., description="SCS filename in the out/ dire
 <body>
   <div id="viewer"></div>
   <script type="module">
-    import {{ WebViewer }} from '/static/hoops-web-viewer-monolith.mjs';
+    import {{ WebViewer, Color }} from '/static/hoops-web-viewer-monolith.mjs';
+    const scsFile = {repr(scs)};
     const hwv = new WebViewer({{
       container: document.getElementById('viewer'),
-      endpointUri: '/out/{scs}',
+      endpointUri: '/out/' + scsFile,
     }});
     hwv.setCallbacks({{
       sceneReady: () => {{
@@ -99,6 +100,23 @@ def viewer_page(scs: str = Query(..., description="SCS filename in the out/ dire
         window.addEventListener('resize', () => hwv.resizeCanvas());
         if (hwv.view.getAxisTriad) hwv.view.getAxisTriad().enable();
         if (hwv.view.getNavCube)  hwv.view.getNavCube().enable();
+      }},
+      modelStructureReady: async function () {{
+        const res = await fetch('/CAD/viewer/colors?scs=' + scsFile);
+        const data = await res.json();
+        if (!data.colors || data.colors.length === 0) return;
+
+        const model = hwv.model;
+        const rootNode = model.getAbsoluteRootNode();
+        const children = model.getNodeChildren(rootNode);
+        if (children.length === 0) return;
+        const modelNodeId = children[0];
+
+        data.colors.forEach((rgb, faceId) => {{
+          if (rgb) {{
+            model.setNodeFaceColor(modelNodeId, faceId, new Color(rgb[0], rgb[1], rgb[2]));
+          }}
+        }});
       }},
     }});
     hwv.start();
