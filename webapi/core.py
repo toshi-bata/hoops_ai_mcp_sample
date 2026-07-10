@@ -341,16 +341,8 @@ def run_MFR_inference(
 
 
 def _get_mfr_labels_description() -> dict:
-    """Load MFR label descriptions from the environment-configured location."""
-    notebooks_dir = pathlib.Path(_get_required_env("HOOPS_AI_NOTEBOOK_DIR"))
-    flow_name = _get_required_env("HOOPS_AI_MFR_FLOW_NAME")
-    flow_dir = notebooks_dir / "out" / "flows" / flow_name
-    labels_path = flow_dir / "labels_description.json"
-    if not labels_path.exists():
-        raise RuntimeError(
-            f"MFR labels description not found: {labels_path}. "
-            "Run the MFR ETL notebook first."
-        )
+    """Load MFR label descriptions bundled with the server."""
+    labels_path = pathlib.Path(__file__).parent / "data" / "mfr_labels_description.json"
     import json
     with labels_path.open() as f:
         raw = json.load(f)

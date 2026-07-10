@@ -54,7 +54,6 @@ Interactive API docs are available at <http://127.0.0.1:8000/docs>.
 | `HOOPS_AI_LICENSE` | Your HOOPS AI license key |
 | `HOOPS_AI_NOTEBOOK_DIR` | Absolute path to the HOOPS AI notebooks output directory |
 | `HOOPS_AI_MFR_MODEL_NAME` | Filename of the trained MFR model checkpoint |
-| `HOOPS_AI_MFR_FLOW_NAME` | Name of the MFR ETL flow (for labels_description.json) |
 
 ## Notes
 
