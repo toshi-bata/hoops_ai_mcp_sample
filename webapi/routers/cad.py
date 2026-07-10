@@ -83,10 +83,26 @@ def viewer_page(scs: str = Query(..., description="SCS filename in the out/ dire
   <style>
     html, body {{ margin: 0; padding: 0; overflow: hidden; }}
     #viewer {{ position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; }}
+    #legend {{
+      position: fixed; top: 12px; right: 12px; z-index: 10;
+      background: rgba(20,20,30,0.82); color: #f0f0f0;
+      border-radius: 8px; padding: 10px 14px;
+      font-family: sans-serif; font-size: 13px;
+      max-height: calc(100vh - 30px); overflow-y: auto;
+      backdrop-filter: blur(4px);
+      display: none;
+    }}
+    #legend h4 {{ margin: 0 0 8px; font-size: 13px; color: #ccc; font-weight: 600; }}
+    .legend-item {{ display: flex; align-items: center; gap: 8px; margin: 4px 0; }}
+    .legend-swatch {{
+      width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.2);
+    }}
   </style>
 </head>
 <body>
   <div id="viewer"></div>
+  <div id="legend"><h4>Manufacturing Features</h4></div>
   <script type="module">
     import {{ WebViewer, Color }} from '/static/hoops-web-viewer-monolith.mjs';
     const scsFile = {repr(scs)};
@@ -104,19 +120,38 @@ def viewer_page(scs: str = Query(..., description="SCS filename in the out/ dire
       modelStructureReady: async function () {{
         const res = await fetch('/CAD/viewer/colors?scs=' + scsFile);
         const data = await res.json();
-        if (!data.colors || data.colors.length === 0) return;
 
-        const model = hwv.model;
-        const rootNode = model.getAbsoluteRootNode();
-        const children = model.getNodeChildren(rootNode);
-        if (children.length === 0) return;
-        const modelNodeId = children[0];
-
-        data.colors.forEach((rgb, faceId) => {{
-          if (rgb) {{
-            model.setNodeFaceColor(modelNodeId, faceId, new Color(rgb[0], rgb[1], rgb[2]));
+        // Apply face colors
+        if (data.colors && data.colors.length > 0) {{
+          const model = hwv.model;
+          const rootNode = model.getAbsoluteRootNode();
+          const children = model.getNodeChildren(rootNode);
+          if (children.length > 0) {{
+            const modelNodeId = children[0];
+            data.colors.forEach((rgb, faceId) => {{
+              if (rgb) {{
+                model.setNodeFaceColor(modelNodeId, faceId, new Color(rgb[0], rgb[1], rgb[2]));
+              }}
+            }});
           }}
-        }});
+        }}
+
+        // Build legend
+        if (data.color_map && Object.keys(data.color_map).length > 0) {{
+          const legend = document.getElementById('legend');
+          const entries = Object.values(data.color_map)
+            .sort((a, b) => a.name.localeCompare(b.name));
+          entries.forEach(entry => {{
+            const [r, g, b] = entry.color_rgb;
+            const item = document.createElement('div');
+            item.className = 'legend-item';
+            item.innerHTML =
+              `<div class="legend-swatch" style="background:rgb(${{r}},${{g}},${{b}})"></div>` +
+              `<span>${{entry.name.replace(/_/g, ' ')}}</span>`;
+            legend.appendChild(item);
+          }});
+          legend.style.display = 'block';
+        }}
       }},
     }});
     hwv.start();
@@ -127,5 +162,8 @@ def viewer_page(scs: str = Query(..., description="SCS filename in the out/ dire
 
 @router.get("/viewer/colors")
 def viewer_colors(scs: str = Query(..., description="SCS filename")):
-    """Return face color data for the given SCS file (populated after MFR inference)."""
-    return {"colors": core.CAD_face_colors.get(scs)}
+    """Return face color data and color map legend for the given SCS file (populated after MFR inference)."""
+    return {
+        "colors": core.CAD_face_colors.get(scs),
+        "color_map": core.CAD_color_maps.get(scs),
+    }

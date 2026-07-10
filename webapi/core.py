@@ -28,6 +28,7 @@ CAD_VIEWER_OUTPUT_DIR = APP_ROOT / "out"
 MFR_inference_model = None
 CAD_viewers: dict[str, dict[str, Any]] = {}  # session_id -> {file_key -> viewer_info}
 CAD_face_colors: dict[str, list] = {}         # scs_filename -> [[r,g,b], ...]
+CAD_color_maps: dict[str, dict] = {}          # scs_filename -> {label_id: {name, color_rgb}}
 
 
 # ---------------------------------------------------------------------------
@@ -223,6 +224,7 @@ def terminate_CAD_viewer(
         scs = info.get("scs_filename")
         if scs:
             CAD_face_colors.pop(scs, None)
+            CAD_color_maps.pop(scs, None)
 
     if terminate_all:
         count = len(session_viewers)
@@ -330,6 +332,9 @@ def run_MFR_inference(
         for lid, info in labels_description.items()
         if int(lid) in present_ids
     }
+
+    if scs_filename:
+        CAD_color_maps[scs_filename] = color_map
 
     return {
         "predictions": json_safe(predictions),
