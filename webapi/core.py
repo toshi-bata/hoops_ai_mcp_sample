@@ -256,16 +256,16 @@ def _get_MFR_inference_model():
     from hoops_ai.ml.EXPERIMENTAL import FlowInference, GraphNodeClassification
 
     _load_env()
-    notebooks_dir = pathlib.Path(_get_required_env("HOOPS_AI_NOTEBOOK_DIR"))
+    sdk_dir = pathlib.Path(_get_required_env("HOOPS_AI_SDK_DIR"))
     model_name = _get_required_env("HOOPS_AI_MFR_MODEL_NAME")
-    trained_model = notebooks_dir.parent / "packages" / "trained_ml_models" / model_name
+    trained_model = sdk_dir / "packages" / "trained_ml_models" / model_name
     if not trained_model.exists():
         raise RuntimeError(
             f"MFR model checkpoint not found: {trained_model}. "
             "Check HOOPS_AI_MFR_MODEL_NAME in .env."
         )
 
-    output_dir = notebooks_dir / "out"
+    output_dir = sdk_dir / "notebooks" / "out"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     loader = HOOPSLoader()

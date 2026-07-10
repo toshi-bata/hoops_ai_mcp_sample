@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 # 2. Create .env (copy from example and fill in your values)
 cp .env.example .env
-# Edit .env — set HOOPS_AI_LICENSE, HOOPS_AI_NOTEBOOK_DIR, HOOPS_AI_MFR_MODEL_NAME, etc.
+# Edit .env — set HOOPS_AI_LICENSE, HOOPS_AI_SDK_DIR, HOOPS_AI_MFR_MODEL_NAME, etc.
 ```
 
 3\. Copy the HOOPS Web Viewer JS asset into `static/`:
@@ -52,7 +52,7 @@ Interactive API docs are available at <http://127.0.0.1:8000/docs>.
 | Variable | Description |
 |----------|-------------|
 | `HOOPS_AI_LICENSE` | Your HOOPS AI license key |
-| `HOOPS_AI_NOTEBOOK_DIR` | Absolute path to the HOOPS AI notebooks output directory |
+| `HOOPS_AI_SDK_DIR` | Absolute path to the HOOPS AI SDK root directory (e.g. `C:/SDK/HOOPS_AI/V1.1`) |
 | `HOOPS_AI_MFR_MODEL_NAME` | Filename of the trained MFR model checkpoint |
 
 ## Notes
