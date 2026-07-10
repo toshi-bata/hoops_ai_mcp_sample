@@ -324,7 +324,7 @@ def run_MFR_inference(
     present_ids = {int(lid) for lid in session_preds}
     color_map = {
         str(lid): {
-            "name": info["name"],
+            "name": info["name"] if isinstance(info, dict) else info,
             "color_rgb": list(color_palette.get_color(lid)),
         }
         for lid, info in labels_description.items()
