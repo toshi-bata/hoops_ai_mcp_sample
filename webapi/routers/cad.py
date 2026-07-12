@@ -147,7 +147,7 @@ def viewer_page(scs: str = Query(..., description="SCS filename in the out/ dire
             item.className = 'legend-item';
             item.innerHTML =
               `<div class="legend-swatch" style="background:rgb(${{r}},${{g}},${{b}})"></div>` +
-              `<span>${{entry.name.replace(/_/g, ' ')}}</span>`;
+              `<span>${{entry.name.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}}</span>`;
             legend.appendChild(item);
           }});
           legend.style.display = 'block';
