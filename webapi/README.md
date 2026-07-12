@@ -1,6 +1,6 @@
 # webapi — HOOPS AI WebAPI (minimal sample)
 
-FastAPI application that exposes four endpoint groups:
+FastAPI application that exposes the following endpoints:
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -8,6 +8,8 @@ FastAPI application that exposes four endpoint groups:
 | `GET`  | `/files/` | List uploaded files |
 | `POST` | `/CAD/viewer` | Open a CAD file in the HOOPS Web Viewer |
 | `DELETE` | `/CAD/viewer` | Close viewer(s) for the current session |
+| `GET` | `/CAD/viewer/show` | Serve the Web Viewer HTML page (accessed via `viewer_url`) |
+| `GET` | `/CAD/viewer/colors` | Return face color data for MFR visualization |
 | `POST` | `/MFR/inference` | Run Manufacturing Feature Recognition |
 | `POST` | `/BRep/attributes` | Extract per-face and per-edge B-rep attributes |
 

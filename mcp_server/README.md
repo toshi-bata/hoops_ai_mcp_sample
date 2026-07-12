@@ -13,8 +13,10 @@ FastMCP server that lets Claude Desktop call HOOPS AI through four tools:
 
 - Python 3.12
 - [uv](https://docs.astral.sh/uv/) (recommended) or pip
-- The WebAPI server running at `http://127.0.0.1:8000`
+- The WebAPI server running and accessible from this machine
   (see `../webapi/README.md`)
+  - Same machine: `http://127.0.0.1:8000`
+  - Remote server: `http://<server-ip-or-hostname>:8000`
 
 ## Setup
 
@@ -40,7 +42,7 @@ Add the following entry to your `claude_desktop_config.json`
       "command": "uv",
       "args": [
         "--directory",
-        "C:/git/toshi-bata/HOOPS_AI/hoops_ai_mcp_sample/mcp_server",
+        "path/to/hoops_ai_mcp_sample/mcp_server",
         "run",
         "server.py"
       ],
@@ -52,20 +54,16 @@ Add the following entry to your `claude_desktop_config.json`
 }
 ```
 
+> For a remote WebAPI server, replace `http://127.0.0.1:8000` with `http://<server-ip-or-hostname>:8000`.
+
 > **If using a plain Python venv instead of uv**, replace `"command": "uv"` and
 > its `args` with the full path to the Python interpreter and `server.py`:
 > ```json
 > "command": "C:/path/to/.venv/Scripts/python.exe",
 > "args": [
->   "C:/git/toshi-bata/HOOPS_AI/hoops_ai_mcp_sample/mcp_server/server.py"
+>   "path/to/hoops_ai_mcp_sample/mcp_server/server.py"
 > ]
 > ```
-
-## Environment variable
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `HOOPS_WEBAPI_URL` | `http://127.0.0.1:8000` | Base URL of the WebAPI server |
 
 ## Trying it out in Claude Desktop
 

@@ -1,10 +1,11 @@
 """
 server.py — HOOPS AI MCP Server (minimal sample)
 
-Exposes three MCP tools that Claude Desktop can call:
+Exposes four MCP tools that Claude Desktop can call:
   - upload_cad_model      : upload a local CAD file → file_id
   - open_cad_viewer       : open the HOOPS Web Viewer for a CAD file
   - run_mfr_inference     : run Manufacturing Feature Recognition
+  - get_brep_attributes   : extract per-face and per-edge B-rep attributes
 """
 
 import os
