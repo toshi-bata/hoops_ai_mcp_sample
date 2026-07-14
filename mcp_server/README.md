@@ -31,10 +31,13 @@ pip install httpx "mcp[cli]"
 
 ## Register with Claude Desktop
 
-Add the following entry to your `claude_desktop_config.json`
-(location: `%APPDATA%\Claude\claude_desktop_config.json` on Windows,
-`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+Edit `claude_desktop_config.json` and add the following entry under `mcpServers`:
 
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Linux:** `~/.config/Claude/claude_desktop_config.json`
+
+**Windows:**
 ```json
 {
   "mcpServers": {
@@ -42,7 +45,27 @@ Add the following entry to your `claude_desktop_config.json`
       "command": "uv",
       "args": [
         "--directory",
-        "path/to/hoops_ai_mcp_sample/mcp_server",
+        "C:\\path\\to\\hoops_ai_mcp_sample\\mcp_server",
+        "run",
+        "server.py"
+      ],
+      "env": {
+        "HOOPS_WEBAPI_URL": "http://127.0.0.1:8000"
+      }
+    }
+  }
+}
+```
+
+**Linux / macOS:**
+```json
+{
+  "mcpServers": {
+    "hoops-ai-sample": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/path/to/hoops_ai_mcp_sample/mcp_server",
         "run",
         "server.py"
       ],
@@ -56,13 +79,34 @@ Add the following entry to your `claude_desktop_config.json`
 
 > For a remote WebAPI server, replace `http://127.0.0.1:8000` with `http://<server-ip-or-hostname>:8000`.
 
+> **Troubleshooting — `uv` not found:** Claude Desktop launches with a limited PATH and may fail to find `uv` even if it works in your terminal.
+> If the MCP server does not appear in Claude Desktop, use the **full path** to `uv` instead of `"uv"`:
+>
+> **Windows:**
+> ```powershell
+> where.exe uv   # e.g. C:\Users\<you>\.local\bin\uv.exe
+> ```
+>
+> **Linux / macOS:**
+> ```bash
+> which uv   # e.g. /home/<you>/.local/bin/uv
+> ```
+>
+> Then update `"command"` in the config with the full path found above.
+
 > **If using a plain Python venv instead of uv**, replace `"command": "uv"` and
 > its `args` with the full path to the Python interpreter and `server.py`:
+>
+> **Windows:**
 > ```json
 > "command": "C:/path/to/.venv/Scripts/python.exe",
-> "args": [
->   "path/to/hoops_ai_mcp_sample/mcp_server/server.py"
-> ]
+> "args": ["C:/path/to/hoops_ai_mcp_sample/mcp_server/server.py"]
+> ```
+>
+> **Linux / macOS:**
+> ```json
+> "command": "/path/to/.venv/bin/python",
+> "args": ["/path/to/hoops_ai_mcp_sample/mcp_server/server.py"]
 > ```
 
 ## Trying it out in Claude Desktop
